@@ -1,0 +1,24 @@
+<app-admin-panel></app-admin-panel>
+<h2 class="text-success">Category list</h2>
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Category Id:</th>
+            <th>Category Name:</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let category of categories">
+            <td>{{category.categoryId}}</td>
+            <td>{{category.categoryName}}</td>
+            <td><button class="btn btn-primary" (click)="editCategory(category.categoryId)" type="button">Edit</button></td>
+            <td><button class="btn btn-danger" (click)="deleteCategoryFunc(category.categoryId)" type="button">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="mt-4">
+    <button class="btn btn-success" type="button"><a routerLink="/addCategory">Add new Category</a></button>
+  </div>

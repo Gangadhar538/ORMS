@@ -1,0 +1,57 @@
+<div class="background-image">
+      <div class="container">
+          <div class="row justify-content-center">
+              <div class="col-md-6">
+                  <div class="card mt-5">
+                      <div class="card-header">
+                          <h2 style="color: rgb(248, 248, 251);">Login</h2>
+                      </div>
+                      <div class="card-body">
+                          <!-- Login Form -->
+                          <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" autocomplete="off"
+                              novalidate>
+                              <!-- Email Input -->
+                              <div class="mb-3">
+                                  <label for="email" class="form-label"
+                                      style="color: rgb(252, 252, 253);">Email Address:</label>
+                                  <input [(ngModel)]="email" name="email" required id="email" type="text"
+                                      class="form-control" placeholder="Email Address..." required />
+                                  <!-- Email validation message -->
+                                  <!-- <small class="text-danger" *ngIf="loginForm.controls['email'].errors?.required">
+                                      Email is required
+                                  </small> -->
+                              </div>
+                              <!-- Password Input -->
+                              <div class="mb-3">
+                                  <label for="password" class="form-label"
+                                      style="color: rgb(245, 249, 249);">Password:</label>
+                                  <input [(ngModel)]="password" name="password" required id="password"
+                                      type="password" class="form-control" placeholder="Password..." onkeyup="validatePassword(loginform.password)" required />
+                                  <!-- Password validation message -->
+                                  <!-- <small class="text-danger" *ngIf="loginForm.controls['password'].errors?.required">
+                                      Password is required
+                                  </small> -->
+                              </div>
+  
+                              <!-- Submit Button -->
+                              <span>
+                                  <button type="submit" class="btn btn-primary">Login</button>
+                              </span>
+                              &nbsp;&nbsp;
+                              <button type="button" class="btn btn-primary"><a routerLink="/homepage">Back</a></button>
+                          </form>
+                          <p class="small mb-5 pb-lg-2"> <a class="underline" routerLink="/forgotpassword"
+                                  style="color: blue">Forgot Password?</a></p>
+  
+                          <div class="signup-link" style="color: hsl(132, 81%, 54%);">
+                              <p>Don't have an account?
+                                  <a class="underline" routerLink="/signup" style="color: blue">Sign up here</a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  

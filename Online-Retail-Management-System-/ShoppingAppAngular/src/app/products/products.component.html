@@ -1,0 +1,17 @@
+<app-navbar></app-navbar>
+<div class="product-list">
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let product of products">
+        <div class="card h-100">
+          <img src="https://i5.walmartimages.com/asr/5e828f7e-5cc5-4958-8470-21f4febd7116_1.dc80c9ef9758cfbd9809055e87ca2f70.jpeg" height="40%" width="10%" class="card-img-top" alt="{{ product.productName }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.productName }}</h5>
+            <p class="card-text">Price: {{ product.unitCost | currency:'INR':'₹'}}</p>
+            <p class="card-text" *ngIf="product.subCategory">Category: {{ product.subCategory.subCategoryName }}</p>
+            <button class="btn btn-primary" (click)="viewProductDetails(product.productId)">Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- (click)="viewProductDetails(product)" -->

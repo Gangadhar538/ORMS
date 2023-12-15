@@ -1,0 +1,17 @@
+<app-admin-panel></app-admin-panel>
+<div class="container">
+    <h2>Edit Subcategory</h2>
+    <!-- Form for editing subcategory details -->
+    <form (ngSubmit)="updateSubCategory()" autocomplete="off" novalidate>
+        <div class="form-group">
+            <label for="subCategoryName">SubCategory Name</label>
+            <input [(ngModel)]="subcategory.subCategoryName" name="subCategoryName" id="subCategoryName" type="text" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="categoryId">Category ID</label>
+            <input [(ngModel)]="subcategory.categoryId" name="categoryId" id="categoryId" type="text" class="form-control" required>
+        </div>
+        <!-- Add other editable properties here -->
+        <button type="submit" class="btn btn-primary">Update Subcategory</button>
+    </form>
+</div>

@@ -1,0 +1,10 @@
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150%;
+     /* Placeholder image URL */
+    background-size: cover;background-image: url('https://img.freepik.com/premium-photo/hand-holding-online-shopping-smartphone-digital-marketing-concept-orange-background-3d-rendering_342841-29.jpg?w=900');
+    opacity: 0.7;
+  }

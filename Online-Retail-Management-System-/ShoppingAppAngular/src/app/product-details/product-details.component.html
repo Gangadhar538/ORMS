@@ -1,0 +1,40 @@
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="https://i5.walmartimages.com/asr/5e828f7e-5cc5-4958-8470-21f4febd7116_1.dc80c9ef9758cfbd9809055e87ca2f70.jpeg" alt="{{ product.productName }}" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h2>{{ product.productName }}</h2>
+      <p><strong>Description:</strong> {{ product.productDescription }}</p>
+      <p><strong>Size:</strong> {{ product.size }}</p>
+      <p><strong>Unit Cost:</strong> {{ product.unitCost | currency:'INR':'₹' }}</p>
+      // Add more product details -->
+      <!-- <div>
+        <button class="btn btn-primary mr-2">Buy Now</button>&nbsp;&nbsp;
+        <button class="btn btn-success" (onclick)="addToCart()">Add to Cart</button>
+        //Add additional buttons or functionality -->
+      <!-- </div>
+    </div>
+  </div>
+</div> -->  
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+  <div class="col-md-6">
+    <img src="https://i5.walmartimages.com/asr/5e828f7e-5cc5-4958-8470-21f4febd7116_1.dc80c9ef9758cfbd9809055e87ca2f70.jpeg" alt="{{ product.productName }}" class="img-fluid">
+  </div>
+  <div class="col-md-6">
+  <h2>{{ product.productName }}</h2>
+  <div>
+    <p><strong>Description:</strong> {{ product.productDescription }}</p>
+    <p><strong>Size:</strong> {{ product.size }}</p>
+    <p><strong>Unit Cost:</strong> {{ product.unitCost | currency:'INR':'₹' }}</p>
+    <!-- Add more product details -->
+    <div>
+      <button class="btn btn-primary" (click)="addToCart()">Add to Cart</button>
+      <!-- Additional buttons or functionality -->
+    </div>
+  </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,271 @@
+
+Function1.cs:
+=============
+
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+
+namespace OnlineShoppingFunction
+{
+    public static class Function1
+    {
+        [FunctionName("Function2")]
+        public static async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [sql("OrderDetails", "MyDBConnection")] IAsyncCollector<OrderDetails> empp, ILogger log)
+        {
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            OrderDetails emp = JsonConvert.DeserializeObject<OrderDetails>(requestBody);
+            await empp.AddAsync(emp);
+            await empp.FlushAsync();
+            return new OkObjectResult("Order added");
+        }
+    }
+}
+
+
+appsettings.json:
+=================
+
+{
+    "ConnectionStrings": {
+        "Constr": "Server=LIN-5CG11970H7\\SQLEXPRESS;Database=ShoppingApplicationDb;Integrated Security=true",
+        "StorAccConnString": "DefaultEndpointsProtocol=https;AccountName=sprintonlineretail;AccountKey=ZqNda896BP68sSeA1AE+OhUJqSr19SqVBlFeMHaVQZKxQek6WccYUpykP2VtA7NUFvnkfMn8GUuP+AStJILpUw==;EndpointSuffix=core.windows.net"
+    },
+    "Container": "container1",
+    "EventGridTopicEndpoint": "https://eventgrid46330511.eastus2-1.eventgrid.azure.net/api/events",
+    "EventGridAccessKey": "v4XCEENtMknZP6ODqUKxsSRUN4E7dfyn/LUMKSMq7GI=",
+    "EventGridTopic": "/subscriptions/8f72b01b-72a4-4c00-9a77-13ff6a13b04c/resourceGroups/Rg_Sprint/providers/Microsoft.EventGrid/topics/EventGrid46330511",
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+        }
+    },
+    "AllowedHosts": "*"
+}
+
+
+Helper.cs:
+==========
+
+//helperclassusing Azure;
+using Azure;
+using Azure.Messaging.EventGrid;
+using Azure.Storage.Blobs;
+
+using Newtonsoft.Json;
+using ShoppingAppCodeFirstWebAPI.Models;
+using System.Text;
+
+
+namespace ShoppingAppCodeFirstWebAPI
+{
+    public class Helper
+
+    {
+
+        public static async Task<bool> UploadBlob(
+                    IConfiguration config,
+                    OrderDetails orderDetails)
+        {
+            string blobConnString = config.GetConnectionString("StorAccConnString");
+            BlobServiceClient client = new BlobServiceClient(blobConnString);
+
+            string container = config.GetValue<string>("Container");
+            var containerClient = client.GetBlobContainerClient(container);
+
+
+            string fileName = "ems.Department." + Guid.NewGuid().ToString() + ".json";
+            // Get a reference to a blob
+            BlobClient blobClient = containerClient.GetBlobClient(fileName);
+
+
+            //memorystream
+            using (var stream = new MemoryStream())
+            {
+                var serializer = JsonSerializer.Create(new JsonSerializerSettings());
+
+
+                // Use the 'leave open' option to keep the memory stream open after the stream writer is disposed
+                using (var writer = new StreamWriter(stream, Encoding.UTF8, 1024, true))
+                {
+                    // Serialize the job to the StreamWriter
+                    serializer.Serialize(writer, orderDetails);
+                }
+
+
+                // Rewind the stream to the beginning
+                stream.Position = 0;
+
+
+                // Upload the job via the stream
+                await blobClient.UploadAsync(stream, overwrite: true);
+            }
+
+
+            await PublishToEventGrid(config, orderDetails);
+            return true;
+        }
+
+
+        private static async Task PublishToEventGrid(
+             IConfiguration config, OrderDetails orderDetails)
+        {
+            var endpoint = config.GetValue<string>("EventGridTopicEndpoint");
+            var accessKey = config.GetValue<string>("EventGridAccessKey");
+
+            EventGridPublisherClient client = new EventGridPublisherClient(
+                new Uri(endpoint),
+                new AzureKeyCredential(accessKey));
+
+            var event1 = new EventGridEvent(
+                    "EMS",
+                    "EMS.DepartmentEvent",
+                    "1.0",
+                    JsonConvert.SerializeObject(orderDetails));
+            event1.Id = (new Guid()).ToString();
+            event1.EventTime = DateTime.Now;
+            event1.Topic = config.GetValue<string>("EventGridTopic");
+            List<EventGridEvent> eventsList = new List<EventGridEvent>
+             {
+                 event1
+             };
+
+            // Send the events
+            await client.SendEventsAsync(eventsList);
+
+        }
+
+
+
+    }
+}
+
+
+
+program.cs:
+===========
+
+using Microsoft.EntityFrameworkCore;
+using ShoppingAppCodeFirstWebAPI.Models;
+
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<ShoppingApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Constr")));
+
+builder.Services.AddCors(options => { options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); });
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    
+}
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseRouting();
+app.UseCors("CorsPolicy");
+
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+
+
+properties/lauchsetting.json:
+=============================
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:39028",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "ShoppingAppCodeFirstWebAPI": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5009",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+
+
+
+
+Azure Function(OrderDetails.cs):
+================================
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OnlineShoppingFunction
+{
+    public partial class OrderDetails
+    {
+     
+        public int OrderDetailsId { get; set; }
+
+       
+        public int ProductId { get; set; }
+
+       
+        public int OrderId { get; set; }
+       
+        public int? Quantity { get; set; }
+
+
+        public decimal? UnitCost { get; set; }
+
+        public decimal? OrderTotal { get; set; }
+
+        public string? Comments { get; set; }
+
+
+    }
+}
+
+
+

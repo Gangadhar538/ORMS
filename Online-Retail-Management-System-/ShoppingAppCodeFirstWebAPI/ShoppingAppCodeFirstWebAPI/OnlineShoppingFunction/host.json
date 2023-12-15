@@ -1,0 +1,14 @@
+{
+    "version": "2.0",
+    "logging": {
+        "applicationInsights": {
+            "samplingSettings": {
+                "isEnabled": true,
+                "excludedTypes": "Request"
+            },
+            "ConnectionStrings": {
+                "MyDBConnection": "Server=LIN-5CG11970H7\\SQLEXPRESS;Database=ShoppingApplicationDb;Integrated Security=true"
+            }
+        }
+    }
+}

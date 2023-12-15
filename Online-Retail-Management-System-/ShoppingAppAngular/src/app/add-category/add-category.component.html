@@ -1,0 +1,12 @@
+<!-- add-category.component.html -->
+<div class="container mt-5">
+    <h1>Category</h1>
+    <form (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        <div class="mb-3">
+            <label for="categoryName" class="form-label">Category Name:</label>
+            <input [(ngModel)]="categoryName" name="categoryName" required id="categoryName" type="text" class="form-control" placeholder="Category Name..." title="Enter Category Name" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Category</button>
+    </form>
+</div>

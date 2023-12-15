@@ -1,0 +1,36 @@
+<div class="container mt-5">
+    <h1>Product</h1>
+    <form (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        <div class="mb-3">
+            <label for="subCategoryId" class="form-label">SubCategory ID:</label>
+            <input [(ngModel)]="subCategoryId" name="subCategoryId" required id="subCategoryId" type="text" class="form-control" placeholder="SubCategory ID..." title="Enter SubCategory ID" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="productName" class="form-label">Product Name:</label>
+            <input [(ngModel)]="productName" name="productName" required id="productName" type="text" class="form-control" placeholder="Product Name..." title="Enter Product Name" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="productDescription" class="form-label">Product Description:</label>
+            <input [(ngModel)]="productDescription" name="productDescription" required id="productDescription" type="text" class="form-control" placeholder="Product Description..." title="Enter Product Description" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="size" class="form-label">Size:</label>
+            <input [(ngModel)]="size" name="size" required id="size" type="text" class="form-control" placeholder="Size..." title="Enter Size" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="unitCost" class="form-label">Unit Cost:</label>
+            <input [(ngModel)]="unitCost" name="unitCost" required id="unitCost" type="number" class="form-control" placeholder="Unit Cost..." title="Enter Unit Cost" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="imageData" class="form-label">Image Data:</label>
+            <input [(ngModel)]="imageData" name="imageData" required id="imageData" type="text" class="form-control" placeholder="Image Data..." title="Enter Image Data" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Product</button>
+    </form>
+</div>

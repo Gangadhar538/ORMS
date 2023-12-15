@@ -1,0 +1,26 @@
+<app-admin-panel></app-admin-panel>
+<h2 class="text-success">Sub-Category list</h2>
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>SubCategory Id:</th>
+            <th>SubCategory Name:</th>
+            <th>Category Id:</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let subCategory of subCategories">
+            <td>{{subCategory.subCategoryId}}</td>
+            <td>{{subCategory.subCategoryName}}</td>
+            <td>{{subCategory.categoryId}}</td>
+            <td><button class="btn btn-primary"  (click)="editSubCategory(subCategory.subCategoryId)" type="button">Edit</button></td>
+            <td><button class="btn btn-danger" (click)="deleteSubCategoryFunc(subCategory.subCategoryId)" type="button">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="mt-4">
+  <button class="btn btn-success" type="button"><a routerLink="/addSubCategory">Add new SubCategory</a></button>
+</div>

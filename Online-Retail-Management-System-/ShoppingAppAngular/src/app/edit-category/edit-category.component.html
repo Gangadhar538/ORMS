@@ -1,0 +1,13 @@
+<app-admin-panel></app-admin-panel>
+<div class="container">
+    <h2>Edit Category</h2>
+    <!-- Form for editing category details -->
+    <form (ngSubmit)="updateCategory()" autocomplete="off" novalidate>
+        <div class="form-group">
+            <label for="categoryName">Category Name</label>
+            <input [(ngModel)]="category.categoryName" name="categoryName" id="categoryName" type="text" class="form-control" required>
+        </div>
+        <!-- Add other editable properties here -->
+        <button type="submit" class="btn btn-primary">Update Category</button>
+    </form>
+</div>

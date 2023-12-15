@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/ShoppingAppCodeFirstWebAPI20231211162455/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsConstr_62E1064C08",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/shoppingapp/databases/ShoppinAppDb",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:Constr"
+    }
+  }
+}

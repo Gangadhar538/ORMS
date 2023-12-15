@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<body class="img-container1">
+    <form class="textbox" #adminloginForm="ngForm" (ngSubmit)="adminlogin(adminloginForm.value)" autocomplete="off"
+        novalidate>
+        <div class="login-box">
+            <h1>Admin Login</h1>
+            <div class="textbox">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <input [(ngModel)]="email" name="email" required id="name" type="email" class="form-comtrol"
+                    placeholder="Email Address" required />
+            </div>
+            <div class="textbox">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+                <input [(ngModel)]="password" name="password" required id="password" type="password"
+                    placeholder="Password" />
+            </div>
+            <button class="button" type="submit" name="login">Login</button>
+            <button class="button" name="back" ><a routerLink="/homepage" style="color: white;">Back</a></button>
+        </div>
+    </form>
+</body>
+</html>

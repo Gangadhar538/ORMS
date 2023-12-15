@@ -1,0 +1,18 @@
+<!-- add-sub-category.component.html -->
+<div class="container mt-5">
+    <h1>SubCategory</h1>
+    <form (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        
+        <div class="mb-3">
+            <label for="categoryId" class="form-label">Category ID:</label>
+            <input [(ngModel)]="categoryId" name="categoryId" required id="categoryId" type="text" class="form-control" placeholder="Category ID..." title="Enter Category ID" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="subCategoryName" class="form-label">SubCategory Name:</label>
+            <input [(ngModel)]="subCategoryName" name="subCategoryName" required id="subCategoryName" type="text" class="form-control" placeholder="SubCategory Name..." title="Enter SubCategory Name" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add SubCategory</button>
+    </form>
+</div>
